@@ -4,7 +4,7 @@ import generadorclaves.Packet;
 import generadorclaves.RSA_Asimetric;
 
 void main() {
-    try (ServerSocket ss = new ServerSocket(8888);) {
+    try (ServerSocket ss = new ServerSocket(5000)) {
         Socket socket = ss.accept();
         System.out.println("Servidor en marcha: " + ss.getInetAddress().getHostName());
 
@@ -48,7 +48,7 @@ void main() {
 
             if (Hash.compareHash(messageClientHash, messageServerHash)) {
                 System.out.println("Mensaje recibido con exito: " + new String(decryptedMessageBytes));
-                String messageForClient = "DATOS RECIBIDOS CORRECTAMENTE";
+                String messageForClient = "DataRecived";
                 byte[] encryptMesaageForClient = AES_Simetric.encryptData(clientSharedKey, messageForClient.getBytes());
                 SecretKey messageForClientHash = Hash.passwordKeyGeneration(messageForClient, 256);
                 oos.writeObject(new Packet(encryptMesaageForClient, messageForClientHash.getEncoded()));
